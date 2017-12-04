@@ -1,4 +1,7 @@
 .DS_Store
 .gradle/
+dk.sdu.sso.sred/generated/
+dk.sdu.sso.sred.api/generated/
+dk.sdu.sso.sred.server/generated/
 /generated/
 .metadata
