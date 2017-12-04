@@ -1,0 +1,10 @@
+# Apache Felix Gogo Profile
+
+# Scope
+SCOPE = gogo:*
+
+# Change Prompt
+prompt = 'admin:-$ '
+
+# Print Welcome Message
+cat ($0 resolve motd)

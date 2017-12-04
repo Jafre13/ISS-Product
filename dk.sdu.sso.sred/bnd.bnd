@@ -1,0 +1,27 @@
+-buildpath: \
+	osgi.annotation;version=6.0.1,\
+	osgi.core;version=6.0,\
+	osgi.cmpn;version=6.0,\
+	org.apache.felix.gogo.runtime,\
+	libs/aliasi-lingpipe-4.1.0.jar;version=file,\
+	libs/slf4j-api-1.7.25.jar;version=file,\
+	dk.sdu.sso.sred.server;version=latest,\
+	dk.sdu.sso.sred.api;version=latest
+
+-testpath: \
+	${junit}
+
+javac.source: 1.8
+javac.target: 1.8
+
+Bundle-Version: 0.0.0.${tstamp}
+Private-Package: \
+	dk.sdu.sso.sred.cmd,\
+	dk.sdu.sso.sred.lingpipe,\
+	dk.sdu.sso.sred.api,\
+	dk.sdu.sso.sred
+-runrequires: \
+	osgi.identity;filter:='(osgi.identity=dk.sdu.sso.sred.api)',\
+	osgi.identity;filter:='(osgi.identity=dk.sdu.sso.sred.server)'
+-runfw: org.apache.felix.framework;version='[5.4.0,5.4.0]'
+-runee: Unknown
