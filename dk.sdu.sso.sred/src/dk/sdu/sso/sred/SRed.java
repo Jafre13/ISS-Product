@@ -4,7 +4,7 @@ import org.osgi.service.component.annotations.*;
 
 import dk.sdu.sso.sred.api.SRedAPI;
 
-@Component
+@Component(immediate = true)
 /**
  * The SRed Implementation
  */

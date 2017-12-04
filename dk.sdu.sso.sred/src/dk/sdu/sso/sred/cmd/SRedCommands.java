@@ -13,7 +13,8 @@ import org.osgi.service.component.annotations.Component;
 	// Scope
     Command.SCOPE + "sred", 
     // Functions
-    Command.FUNCTION + "test"
+    Command.FUNCTION + "test",
+    Command.FUNCTION + "exit"
 })
 /**
  * OSGi Based Command Line Commands
@@ -26,6 +27,12 @@ public class SRedCommands {
     		@Descriptor("Just an optional parameter") @Parameter(names = {"-e", "--enabled"}, absentValue = "false", presentValue = "true") boolean enabled
     		) {
        return "IT WORKS! " + enabled;
+    }
+	
+	// Stop Application
+	@Descriptor("Exit and Stop the Application")
+    public void exit() {
+       System.exit(0);
     }
 	
 }

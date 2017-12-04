@@ -27,11 +27,10 @@
 		pretty = true; \
 		local = ${build}/release
 		
--plugin.2.Central = \
-	aQute.bnd.repository.maven.provider.MavenBndRepository; \
-		releaseUrl=https://repo.maven.apache.org/maven2/; \
-		index=${.}/central.maven; \
-		name="Maven Central"
+-plugin.4.Central = \
+   aQute.bnd.repository.maven.provider.MavenBndRepository; \
+      releaseUrl = https://repo.maven.apache.org/maven2/; \
+      name       = MavenCentral
 
 -releaserepo: Release
 -baselinerepo: Release

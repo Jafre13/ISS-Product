@@ -31,5 +31,8 @@
 	osgi.identity;filter:='(osgi.identity=dk.sdu.sso.sred)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)',\
 	osgi.identity;filter:='(osgi.identity=dk.sdu.sso.sred.api)',\
-	osgi.identity;filter:='(osgi.identity=dk.sdu.sso.sred.server)'
+	osgi.identity;filter:='(osgi.identity=dk.sdu.sso.sred.server)',\
+	osgi.identity;filter:='(osgi.identity=de.julielab:aliasi-lingpipe)',\
+	osgi.identity;filter:='(osgi.identity=slf4j.api)',\
+	osgi.identity;filter:='(osgi.identity=slf4j.simple)'
 -ignore-standalone: 
