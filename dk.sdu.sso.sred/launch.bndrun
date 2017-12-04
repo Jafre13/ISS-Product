@@ -5,16 +5,26 @@
 
 -resolve.effective: active;skip:="osgi.service"
 
+-conditionalpackage:\
+	!javax.*,\
+	!org.xml.*,\
+	!org.w3c.*,\
+	!org.ietf.jgss,\
+	!org.omg.*,\
+	!org.jaxen.*,\
+	!com.sun.*,\
+	!junit.framework.*,\
+	*
+
 -runbundles: \
 	org.apache.felix.gogo.command;version='[0.16.0,0.16.1)',\
 	org.apache.felix.gogo.runtime;version='[0.16.2,0.16.3)',\
 	org.apache.felix.gogo.shell;version='[0.12.0,0.12.1)',\
 	org.apache.felix.scr;version='[2.0.12,2.0.13)',\
-	libs/aliasi-lingpipe-4.1.0.jar;version=file,\
-	libs/slf4j-api-1.7.25.jar;version=file,\
 	dk.sdu.sso.sred;version=snapshot,\
 	dk.sdu.sso.sred.api;version=snapshot,\
-	dk.sdu.sso.sred.server;version=snapshot
+	dk.sdu.sso.sred.server;version=snapshot,\
+	org.apache.servicemix.bundles.junit;version='[4.12.0,4.12.1)'
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
@@ -22,3 +32,4 @@
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)',\
 	osgi.identity;filter:='(osgi.identity=dk.sdu.sso.sred.api)',\
 	osgi.identity;filter:='(osgi.identity=dk.sdu.sso.sred.server)'
+-ignore-standalone: 
