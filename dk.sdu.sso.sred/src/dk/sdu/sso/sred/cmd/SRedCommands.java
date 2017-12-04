@@ -28,7 +28,7 @@ public class SRedCommands {
     		) {
        return "IT WORKS! " + enabled;
     }
-	
+
 	// Stop Application
 	@Descriptor("Exit and Stop the Application")
     public void exit() {

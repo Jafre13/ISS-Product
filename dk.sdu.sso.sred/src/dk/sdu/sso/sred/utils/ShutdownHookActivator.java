@@ -19,6 +19,7 @@ public class ShutdownHookActivator{
 
 	@Activate
 	public void start(/*ComponentContext cc, BundleContext bc, Map<String,Object> config*/) {
+		/*
 		Thread hook = new Thread() {
 			@Override
 			public void run() {
@@ -38,5 +39,6 @@ public class ShutdownHookActivator{
 		
 		System.out.println("Installing shutdown hook.");
 	    Runtime.getRuntime().addShutdownHook(hook);
+	    */
 	}
 }

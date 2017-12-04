@@ -1,5 +1,7 @@
 {
  "revisionRefs":[{
+  "baseline":"0.0.0","bsn":"aliasi-lingpipe-4.1.0.jar","created":1512420178425,"md5":"DC861F34D5A4DFDE89B65550B4029EAB","phase":"MASTER","revision":"4CB6FC742337A671057C56AD5E8DF186E4B7E665","size":1543422,"urls":["http://central.maven.org/maven2/de/julielab/aliasi-lingpipe/4.1.0/aliasi-lingpipe-4.1.0.jar"],"version":"0"
+ },{
   "artifactId":"org.apache.felix.configadmin","baseline":"1.8.10","bsn":"org.apache.felix.configadmin","created":1472229473235,"description":"Implementation of the OSGi Configuration Admin Service Specification 1.5","groupId":"osgi","md5":"854858ABE9D3449926DBBC7DFF08E83C","name":"org.apache.felix.configadmin","phase":"MASTER","revision":"409759D068BF175A4F1A3BE68564FB92DA2CD0AE","size":133130,"urls":["http://search.maven.org/remotecontent?filepath=org/apache/felix/org.apache.felix.configadmin/1.8.10/org.apache.felix.configadmin-1.8.10.jar"],"version":"1.8.10"
  },{
   "artifactId":"org.apache.felix.coordinator","baseline":"1.0.2","bsn":"org.apache.felix.coordinator","created":1472229988394,"description":"Implementation of the OSGi Coordinator Service Specification 1.0","groupId":"osgi","md5":"89CF7F3E3EC7EBEFE930AE0A3B0D18E9","name":"org.apache.felix.coordinator","phase":"MASTER","revision":"AC310C2BB237C847A5E796E01FAB3C145E3F09C0","size":44411,"urls":["http://search.maven.org/remotecontent?filepath=org/apache/felix/org.apache.felix.coordinator/1.0.2/org.apache.felix.coordinator-1.0.2.jar"],"version":"1.0.2"

@@ -1,7 +1,28 @@
 -buildpath: \
-	osgi.annotation; version=6.0.1,\
-	osgi.core; version=6.0,\
-	osgi.cmpn; version=6.0
+	osgi.annotation;version=6.0.1,\
+	osgi.core;version=6.0,\
+	osgi.cmpn;version=6.0,\
+	org.apache.felix.gogo.command,\
+	org.apache.felix.gogo.runtime,\
+	com.sparkjava.spark-core,\
+	org.eclipse.jetty.server,\
+	org.eclipse.jetty.webapp,\
+	org.eclipse.jetty.websocket.server,\
+	org.eclipse.jetty.websocket.servlet,\
+	slf4j.api,\
+	slf4j.simple,\
+	javax.servlet-api,\
+	org.eclipse.jetty.websocket.api,\
+	org.apache.felix.scr,\
+	org.apache.felix.gogo.shell,\
+	org.eclipse.jetty.util,\
+	org.eclipse.jetty.http,\
+	org.eclipse.jetty.io,\
+	org.eclipse.jetty.security,\
+	org.eclipse.jetty.servlet,\
+	org.eclipse.jetty.xml,\
+	org.eclipse.jetty.websocket.client,\
+	org.eclipse.jetty.websocket.common
 
 -testpath: \
 	${junit}
@@ -10,4 +31,53 @@ javac.source: 1.8
 javac.target: 1.8
 
 Bundle-Version: 0.0.0.${tstamp}
-Private-Package: dk.sdu.sso.sred.server
+Private-Package: \
+	dk.sdu.sso.sred.server,\
+	dk.sdu.sso.sred.server.cmd,\
+	spark.*,\
+	org.eclipse.*,\
+	javax.servlet,\
+	javax.servlet.annotation,\
+	javax.servlet.descriptor,\
+	javax.servlet.http
+-runfw: org.apache.felix.framework;version='[5.4.0,5.4.0]'
+-runee: Unknown
+-runrequires: \
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.server)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.webapp)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.websocket.server)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.websocket.servlet)',\
+	osgi.identity;filter:='(osgi.identity=slf4j.api)',\
+	osgi.identity;filter:='(osgi.identity=slf4j.simple)',\
+	osgi.identity;filter:='(osgi.identity=com.sparkjava.spark-core)',\
+	osgi.identity;filter:='(osgi.identity=javax.servlet-api)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.websocket.api)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.util)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.http)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.io)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.security)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.servlet)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.xml)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.websocket.client)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.websocket.common)'
+-runbundles: \
+	org.apache.felix.gogo.command;version='[0.16.0,0.16.1)',\
+	org.apache.felix.gogo.runtime;version='[0.16.2,0.16.3)'
+-conditionalpackage:\
+	!javax.*,\
+	!org.xml.*,\
+	!org.w3c.*,\
+	!org.ietf.jgss,\
+	!org.omg.*,\
+	!org.jaxen.*,\
+	!com.sun.*,\
+	!javax.sql,\
+	!junit.framework.*,\
+	!org.eclipse.jetty.http,\
+	*
+Import-Package: \
+	!org.xml.sax,\
+	!org.eclipse.jetty.*,\
+	!javax.*,\
+	*

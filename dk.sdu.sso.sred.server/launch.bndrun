@@ -5,13 +5,29 @@
 
 -resolve.effective: active;skip:="osgi.service"
 
--runbundles:\
-	org.apache.felix.gogo.runtime,\
-	org.apache.felix.gogo.shell,\
-	org.apache.felix.gogo.command,\
-	dk.sdu.sso.sred.server;version=snapshot
+-conditionalpackage:\
+	!javax.*,\
+	!org.xml.*,\
+	!org.w3c.*,\
+	!org.ietf.jgss,\
+	!org.omg.*,\
+	!org.jaxen.*,\
+	!com.sun.*,\
+	!javax.sql\
+	!junit.framework.*,\
+	!org.eclipse.jetty.http.*,\
+	*
 
--runrequires:\
-	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
+-runbundles: \
+	dk.sdu.sso.sred.server;version=snapshot,\
+	org.apache.felix.gogo.command;version='[0.16.0,0.16.1)',\
+	org.apache.felix.gogo.runtime;version='[0.16.2,0.16.3)',\
+	org.apache.felix.gogo.shell;version='[0.12.0,0.12.1)',\
+	org.apache.felix.scr;version='[2.0.12,2.0.13)'
+
+-runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
-	osgi.identity;filter:='(osgi.identity=dk.sdu.sso.sred.server)'
+	osgi.identity;filter:='(osgi.identity=dk.sdu.sso.sred.server)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.runtime)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)'

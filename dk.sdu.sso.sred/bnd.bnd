@@ -3,12 +3,13 @@
 	osgi.core;version=6.0,\
 	osgi.cmpn;version=6.0,\
 	org.apache.felix.gogo.runtime,\
-	dk.sdu.sso.sred.server;version=latest,\
 	dk.sdu.sso.sred.api;version=latest,\
-	de.julielab:aliasi-lingpipe,\
 	slf4j.api,\
 	slf4j.simple,\
-	org.apache.felix.scr
+	org.apache.felix.scr,\
+	org.apache.felix.gogo.command,\
+	org.apache.felix.gogo.shell,\
+	aliasi-lingpipe-4.1.0.jar
 
 -testpath: \
 	${junit}
@@ -26,20 +27,18 @@ Private-Package: \
 	dk.sdu.sso.sred.utils
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=dk.sdu.sso.sred.api)',\
-	osgi.identity;filter:='(osgi.identity=dk.sdu.sso.sred.server)',\
-	osgi.identity;filter:='(osgi.identity=de.julielab:aliasi-lingpipe)',\
 	osgi.identity;filter:='(osgi.identity=slf4j.api)',\
-	osgi.identity;filter:='(osgi.identity=slf4j.simple)'
+	osgi.identity;filter:='(osgi.identity=slf4j.simple)',\
+	osgi.identity;filter:='(osgi.identity=aliasi-lingpipe-4.1.0.jar)'
 -runfw: org.apache.felix.framework;version='[5.4.0,5.4.0]'
--runee: Unknown
-
--conditionalpackage:\
-	!javax.*,\
-	!org.xml.*,\
-	!org.w3c.*,\
-	!org.ietf.jgss,\
-	!org.omg.*,\
-	!org.jaxen.*,\
-	!com.sun.*,\
-	!junit.framework.*,\
+-runee: JavaSE-1.8
+-runbundles: \
+	aliasi-lingpipe-4.1.0.jar;version='[0.0.0,0.0.1)',\
+	dk.sdu.sso.sred.api;version=snapshot,\
+	slf4j.api;version='[1.7.25,1.7.26)',\
+	slf4j.simple;version='[1.7.25,1.7.26)'
+Import-Package: \
+	!org.junit,\
+	!org.xml.sax.*,\
+	!junit.framework,\
 	*
