@@ -78,6 +78,16 @@ Private-Package: \
 	*
 Import-Package: \
 	!org.xml.sax,\
-	!org.eclipse.jetty.*,\
-	!javax.*,\
+	!javax.imageio,\
+	!javax.naming,\
+	!javax.naming.ldap,\
+	!javax.net.ssl,\
+	!javax.security.auth,\
+	!javax.security.auth.x500,\
+	!javax.sql,\
+	!javax.xml.parsers,\
+	!org.eclipse.jetty.client.*,\
+	!org.eclipse.jetty.jmx,\
+	!org.xml.sax.helpers,\
+	!org.ietf.jgss,\
 	*

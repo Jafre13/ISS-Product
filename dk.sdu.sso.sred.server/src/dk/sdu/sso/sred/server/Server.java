@@ -11,15 +11,15 @@ public class Server {
 	@Activate
 	public void start() {
 		System.out.println("SERVER ACTIVATED");
-		//startServer(80);
+		startServer(80);
 	}
 	
 	
 	public void startServer(int port) {
 		
-		port(8080);
+		port(12345);
 		
-		get("/hello", (req, res) -> "Hello World");
+		get("/hello", (req, res) -> {return "Hello World";});
 		
 		System.out.println("Server listening on 80 for /hello");
 		
