@@ -36,11 +36,13 @@ import com.aliasi.lm.NGramProcessLM;
 import com.aliasi.stats.MultivariateEstimator;
 import com.aliasi.util.Files;
 
+import dk.sdu.sso.sred.api.SRedAPI;
+
 /**
  * Linguistic Polarity Processor
  * @author Robert Koszewski
  */
-public class LinguisticClassification {
+public class LinguisticClassification implements SRedAPI{
 	
     private String[] mCategories;
     private LMClassifier<NGramProcessLM, MultivariateEstimator> mClassifier;

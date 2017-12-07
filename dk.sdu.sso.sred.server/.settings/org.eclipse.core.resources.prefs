@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
-encoding//src/dk/sdu/sso/sred/server/Server.java=UTF-8
+encoding//src/dk/sdu/sso/sred/server/ServerManager.java=UTF-8
 encoding//test/dk/sdu/sso/sred/server/ExampleTest.java=UTF-8
 encoding/bnd.bnd=UTF-8
 encoding/launch.bndrun=UTF-8

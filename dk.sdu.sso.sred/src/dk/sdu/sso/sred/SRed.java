@@ -2,19 +2,20 @@ package dk.sdu.sso.sred;
 
 import org.osgi.service.component.annotations.*;
 
-import dk.sdu.sso.sred.api.SRedAPI;
+//import dk.sdu.sso.sred.api.SRedAPI;
 
 @Component(immediate = true)
 /**
  * The SRed Implementation
  */
-public class SRed implements SRedAPI {
+public class SRed {
 
 	// TODO: class provided by template
 	
 	@Activate
 	public void start() {
-		System.out.println("Example got activated");
+		// Nothing to do Here
+		// System.out.println("Example got activated");
 	}
 
 }
