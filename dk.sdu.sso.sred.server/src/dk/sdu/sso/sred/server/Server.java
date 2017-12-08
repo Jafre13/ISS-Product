@@ -2,7 +2,9 @@ package dk.sdu.sso.sred.server;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,8 @@ import fi.iki.elonen.NanoHTTPD;
 public class Server extends NanoHTTPD {
 	
 	private SRedAPI net;
+	private double training_samples = 0;
+	private String[] current_categories;
 	private final String MODEL_FILE_NAME = "rest_model.model";
 
 	/**
@@ -31,7 +35,8 @@ public class Server extends NanoHTTPD {
 	public Server(int port) throws IOException {
 		super(port);
 		start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
-		net = new LinguisticClassification(new String[] {"work", "personal", "spam", "social"});
+		current_categories = new String[] {"work", "personal", "spam", "social"};
+		net = new LinguisticClassification(current_categories);
         System.out.println("\nRunning! Point your browsers to http://localhost:"+port+"/ \n");
 	}
 
@@ -40,9 +45,18 @@ public class Server extends NanoHTTPD {
 	 * Serve Response
 	 */
 	public Response serve(IHTTPSession session) {
-		 
-		System.out.println("REQUEST URI: " + session.getUri() + " FROM IP: " + session.getRemoteIpAddress());
-		
+
+		// Parse Parameters
+		Map<String, List<String>> parameters = getPOSTData(session);
+
+		// Show Debug Information in Console
+		System.out.println(
+				"[" + getCurrentTimeStamp() +"] "+ // Time-stamp
+				session.getMethod().name() +": " + // Verb
+				session.getUri() + // URI
+				(parameters.size() != 0 ? " (" + parameters.toString() + ")" : "") + // Parameters
+				" FROM IP: " + getRemoteIP(session)); // Remote IP
+
 		// Response
 		Response response = null;
 		
@@ -54,25 +68,25 @@ public class Server extends NanoHTTPD {
 		// Process URLS
 		switch(url.toLowerCase()) {
 			case "/api/authenticate": 
-				response = newFixedLengthResponse(authenticate(session));
+				response = newFixedLengthResponse(authenticate(session, parameters));
 				break;
 			case "/api/train": 
-				response = newFixedLengthResponse(train(session));
+				response = newFixedLengthResponse(train(session, parameters));
 				break;
 			case "/api/query": 
-				response = newFixedLengthResponse(query(session));
+				response = newFixedLengthResponse(query(session, parameters));
 				break;
 				
 			// Debug Methods -> Only accessible during development & debug
 				
 			case "/debug/resetmodel": 
-				response = newFixedLengthResponse(debug_resetmodel(session));
+				response = newFixedLengthResponse(debug_resetmodel(session, parameters));
 				break;
 			case "/debug/savemodel": 
-				response = newFixedLengthResponse(debug_savemodel(session));
+				response = newFixedLengthResponse(debug_savemodel(session, parameters));
 				break;
 			case "/debug/systeminfo": 
-				response = newFixedLengthResponse(debug_systeminfo(session));
+				response = newFixedLengthResponse(debug_systeminfo(session, parameters));
 				break;
 		}
 		
@@ -120,15 +134,42 @@ public class Server extends NanoHTTPD {
 	    return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
 	}
 	
+	/**
+	 * Get Remote IP
+	 * @param session
+	 * @return
+	 */
+	private String getRemoteIP(IHTTPSession session) {
+		Map<String, String> headers = session.getHeaders();
+		
+		// System.out.println("HEADER SIZE: " + headers.toString());
+
+		// Return Proxied Header
+		if(headers.containsKey("x-real-ip"))
+			return headers.get("x-real-ip");
+		
+		// Return Connection IP
+		return session.getRemoteIpAddress();
+	}
+	
+	/**
+	 * Get Current Time Stamp
+	 * @return
+	 */
+	public String getCurrentTimeStamp() {
+	    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+	}
+	
 	// REST API
 
 	/**
 	 * User Authentication (Disabled during prototype)
 	 * URL: /api/authenticate
 	 * @param session
+	 * @param parameters 
 	 * @return
 	 */
-	private String authenticate(IHTTPSession session) {
+	private String authenticate(IHTTPSession session, Map<String, List<String>> parameters) {
 		return new JSON("error", "notimplemented") + "";
 	}
 	
@@ -138,9 +179,7 @@ public class Server extends NanoHTTPD {
 	 * @param session
 	 * @return
 	 */
-	private String train(IHTTPSession session) {
-		// Get POST data
-		Map<String, List<String>> postData = getPOSTData(session);
+	private String train(IHTTPSession session, Map<String, List<String>> postData) {
 		
 		// Check Parameters
 		if(!postData.containsKey("TextMessage") || !postData.containsKey("DesiredCategory")) {
@@ -149,6 +188,7 @@ public class Server extends NanoHTTPD {
 		
 		try {
 			net.train(postData.get("TextMessage").get(0), postData.get("DesiredCategory").get(0));
+			training_samples++;
 		}catch(Exception e) {
 			return new JSON("error", "exception").e("detail", e.getMessage()) + "";
 		}
@@ -162,10 +202,8 @@ public class Server extends NanoHTTPD {
 	 * @param session
 	 * @return
 	 */
-	private String query(IHTTPSession session) {
-		// Get POST data
-		Map<String, List<String>> postData = getPOSTData(session);
-		
+	private String query(IHTTPSession session, Map<String, List<String>> postData) {
+
 		// Check Parameters
 		if(!postData.containsKey("TextMessage")) {
 			return new JSON("error", "missingarguments").e("detail", "Missing TextMessage") + "";	
@@ -187,16 +225,16 @@ public class Server extends NanoHTTPD {
 	 * @param session
 	 * @return
 	 */
-	private String debug_resetmodel(IHTTPSession session) {
-		// Get POST data
-		Map<String, List<String>> postData = getPOSTData(session);
+	private String debug_resetmodel(IHTTPSession session, Map<String, List<String>> postData) {
 		
 		// Check Parameters
 		if(!postData.containsKey("Categories")) {
 			
 			// Reset to Defaults
 			if(postData.containsKey("Defaults")) {
-				net = new LinguisticClassification(new String[] {"work", "personal", "spam", "social"});
+				current_categories = new String[] {"work", "personal", "spam", "social"};
+				net = new LinguisticClassification(current_categories);
+				training_samples = 0;
 				return new JSON("success", true).e("message", "Model got reset to its defaults: work, personal, spam and social.") + "";
 				
 			}
@@ -207,8 +245,10 @@ public class Server extends NanoHTTPD {
 		List<String> categories_list = postData.get("Categories");
 		
 		try {
-			String[] categories = categories_list.toArray(new String[0]);
+			String[] categories = categories_list.toArray(new String[0]);	
 			net = new LinguisticClassification(categories);
+			training_samples = 0;
+			current_categories = categories;
 			return new JSON("success", true).e("message", "Model got reset with the categories: " + Arrays.toString(categories)) + "";
 		}catch(Exception e) {
 			return new JSON("error", "exception").e("detail", e.getMessage()) + "";
@@ -220,7 +260,7 @@ public class Server extends NanoHTTPD {
 	 * @param session
 	 * @return
 	 */
-	private String debug_savemodel(IHTTPSession session) {
+	private String debug_savemodel(IHTTPSession session, Map<String, List<String>> parameters) {
 		// Get POST data
 		Map<String, List<String>> postData = getPOSTData(session);
 		
@@ -233,8 +273,6 @@ public class Server extends NanoHTTPD {
 		try {
 			File model = new File(MODEL_FILE_NAME);
 			net.saveModel(model);
-			
-			
 			return new JSON("success", true).e("message", "Model got saved. Model file size: "+humanReadableByteCount(model.length(), false)) + "";
 		} catch (Exception e) {
 			return new JSON("error", "exception").e("detail", e.getMessage()) + " - You probably didn't train the model and its empty.";
@@ -246,11 +284,14 @@ public class Server extends NanoHTTPD {
 	 * @param session
 	 * @return
 	 */
-	private String debug_systeminfo(IHTTPSession session) {
+	private String debug_systeminfo(IHTTPSession session, Map<String, List<String>> parameters) {
 		File model = new File(MODEL_FILE_NAME);
 		return new JSON("TotalMemory", humanReadableByteCount(Runtime.getRuntime().totalMemory(), false))
 					.e("FreeMemory", humanReadableByteCount(Runtime.getRuntime().freeMemory(), false)) 
 					.e("MaxMemory", humanReadableByteCount(Runtime.getRuntime().maxMemory(), false)) 
+					.e("ModelTrainingSamples", String.format("%.0f", training_samples)) 
+					.e("ModelCategories", Arrays.toString(current_categories)) 
+					.e("RequestParameters", parameters.toString()) 
 					.e("UsedMemory", humanReadableByteCount(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory(), false))
 					.e("ModelFileSize", ( model.isFile() ? humanReadableByteCount(model.length(), false) : "NoModelFile")) + "";		
 	}
