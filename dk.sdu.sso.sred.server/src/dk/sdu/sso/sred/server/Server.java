@@ -280,6 +280,32 @@ public class Server extends NanoHTTPD {
 	}
 	
 	/**
+	 * URL:
+	 * @param session
+	 * @return
+	 */
+	/*
+	private String debug_pretraindata(IHTTPSession session, Map<String, List<String>> postData) {
+		
+		// Check Parameters
+		if(!postData.containsKey("DebugAuth")) {
+			return new JSON("error", "missingarguments") + "";	
+		}
+
+		List<String> categories_list = postData.get("Categories");
+		
+		try {
+			// Pre-train
+			training_samples =+ net.train(new File(""));
+
+			return new JSON("success", true).e("message", "Model got reset with the categories: " + Arrays.toString(categories)) + "";
+		}catch(Exception e) {
+			return new JSON("error", "exception").e("detail", e.getMessage()) + "";
+		}
+	}
+	*/
+	
+	/**
 	 * Save Trained Model
 	 * @param session
 	 * @return

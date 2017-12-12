@@ -19,7 +19,7 @@ public interface SRedAPI {
 	public void saveModel(File model_file) throws Exception;
 	
 	// Training Methods
-	public void train(File path);
+	public int train(File path);
 	public void train(String input, String category);
 	
 	// Classification Methods

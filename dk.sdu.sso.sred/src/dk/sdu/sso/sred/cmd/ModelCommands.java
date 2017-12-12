@@ -27,7 +27,7 @@ import dk.sdu.sso.sred.lingpipe.LinguisticClassification;
  */
 public class ModelCommands {
 	
-	private LinguisticClassification classifier;
+	private static LinguisticClassification classifier = null;
 	
 	// Train: Train the Model
 	@Descriptor("Train the Model")

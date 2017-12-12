@@ -101,8 +101,9 @@ public class LinguisticClassification implements SRedAPI{
 	/**
 	 * Train Model
 	 * @param path
+	 * @return 
 	 */
-	public void train(File path){
+	public int train(File path){
 		int nGram = 8;
 		DynamicLMClassifier<NGramProcessLM> tmClassifier;
 		
@@ -141,6 +142,8 @@ public class LinguisticClassification implements SRedAPI{
         
         System.out.println("  # Training Cases=" + numTrainingCases);
         System.out.println("  # Training Chars=" + numTrainingChars);
+        
+        return numTrainingCases;
 	}
 	
 	/**
